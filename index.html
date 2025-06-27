@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Cotizador de Autos - Ernesto Bustos</title>
+  <title>Cotizador de Autos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -83,7 +83,6 @@
       padding: 25px;
       border-radius: 15px;
       margin-top: 30px;
-      position: relative;
     }
     table {
       width: 100%;
@@ -131,13 +130,6 @@
       margin-right: 10px;
       font-weight: bold;
     }
-    #btnDescargar {
-      margin-top: 20px;
-      background-color: var(--verde);
-    }
-    #btnDescargar:hover {
-      background-color: #2e7d32;
-    }
   </style>
 </head>
 <body>
@@ -168,7 +160,6 @@
   </form>
 
   <div class="resultado" id="resultado"></div>
-  <button id="btnDescargar" style="display:none;">Descargar cotización como imagen</button>
 
   <div class="beneficios">
     <h2>¿Por qué elegirnos?</h2>
@@ -181,29 +172,24 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const btnCalcular = document.getElementById("btnCalcular");
-  const resultado = document.getElementById("resultado");
-  const btnDescargar = document.getElementById("btnDescargar");
-
-  btnCalcular.addEventListener("click", () => {
+  document.getElementById("btnCalcular").addEventListener("click", () => {
     const marca = document.getElementById("marca").value.trim();
     const modelo = document.getElementById("modelo").value.trim();
     const anio = document.getElementById("anio").value.trim();
     const precio = parseFloat(document.getElementById("precio").value);
     const enganche = parseFloat(document.getElementById("enganche").value);
+    const resultado = document.getElementById("resultado");
 
-    if (!marca || !modelo || !anio || isNaN(precio) || precio <= 0 || isNaN(enganche) || enganche < 0 || enganche > precio) {
+    if (!marca || !modelo || !anio || isNaN(precio) || isNaN(enganche) || enganche > precio) {
       resultado.style.display = "block";
       resultado.innerHTML = "<p style='color: red;'>Por favor verifica los campos ingresados.</p>";
-      btnDescargar.style.display = "none";
       return;
     }
 
     const monto = precio - enganche;
-
+    const plazos = [12, 24, 36, 48, 60];
     let tabla = `
       <h3>Resultado de la Cotización</h3>
       <p><strong>Marca:</strong> ${marca}</p>
@@ -219,28 +205,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <tbody>
     `;
 
-    const plazos = [12, 24, 36, 48, 60];
     plazos.forEach(meses => {
       const cuota = monto / meses;
       tabla += `<tr><td>${meses}</td><td>$${cuota.toFixed(2)}</td></tr>`;
     });
 
-    tabla += `</tbody></table>
-      <p class="footer">Ernesto Bustos - Tel: 8443812518</p>
-    `;
-
+    tabla += `</tbody></table>`;
     resultado.innerHTML = tabla;
     resultado.style.display = "block";
-    btnDescargar.style.display = "block";
-  });
-
-  btnDescargar.addEventListener("click", () => {
-    html2canvas(resultado, {scale: 2}).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'cotizacion.png';
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
   });
 });
 </script>
