@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cotizador de Autos - Ernesto Bustos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- html2canvas CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script> <!-- NUEVO -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    :root {
+      --azul: #1a237e;
+      --azul-claro: #3949ab;
+      --gris: #f5f5f5;
+      --blanco: #ffffff;
+      --verde: #43a047;
+      --rojo: #d32f2f;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--gris);
+      margin: 0;
+      padding: 0 15px 60px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      background: var(--blanco);
+      max-width: 700px;
+      width: 100%;
+      margin-top: 40px;
+      border-radius: 15px;
+      padding: 30px 40px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    .container:hover {
+      box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid var(--azul-claro);
+      padding-bottom: 12px;
+      margin-bottom: 30px;
+    }
+    header img {
+      height: 60px;
+      margin-right: 15px;
+      border-radius: 6px;
+      object-fit: contain;
+      user-select: none;
+    }
+    header h1 {
+      font-size: 28px;
+      color: var(--azul);
+      margin: 0;
+      font-weight: 700;
+      user-select: none;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: var(--azul);
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 6px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      transition: border-color 0.3s ease;
+      font-weight: 500;
+      outline-offset: 2px;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: var(--azul-claro);
+      outline: none;
+      box-shadow: 0 0 6px var(--azul-claro);
+    }
+    .error-message {
+      color: var(--rojo);
+      font-size: 14px;
+      margin-top: 4px;
+      display: none;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 25px;
+      background-color: var(--azul);
+      color: white;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: var(--azul-claro);
+    }
+    #btnReset {
+      background-color: var(--verde);
+      margin-top: 10px;
+    }
+    #btnReset:hover {
+      background-color: #388e3c;
+    }
+    #btnDescargar { /* NUEVO */
+      background-color: #1976d2;
+      margin-top: 15px;
+      display: none;
+    }
+    #btnDescargar:hover {
+      background-color: #1565c0;
+    }
+    .resultado {
+      display: none;
+      background-color: var(--gris);
+      padding: 25px;
+      border-radius: 15px;
+      margin-top: 30px;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      margin-top: 15px;
+    }
+    th, td {
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    th {
+      background-color: var(--azul);
+      color: white;
+    }
+    tbody tr {
+      background: var(--blanco);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: var(--azul-claro);
+      font-style: italic;
+      user-select: none;
+    }
+    .beneficios {
+      background-color: var(--azul-claro);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    .beneficios h2 {
+      text-align: center;
+      margin: 0;
+    }
+    .beneficios ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 15px;
+    }
+    .beneficios li::before {
+      content: "✔";
+      color: var(--verde);
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="Cotizador de Autos">
+  <header>
+    <img src="https://via.placeholder.com/150x60?text=Tu+Logo" alt="Logo de la concesionaria" />
+    <h1>Cotizador de Autos</h1>
+  </header>
+
+  <form id="formulario" onsubmit="return false;" novalidate>
+    <label for="marca">Marca</label>
+    <input id="marca" type="text" placeholder="Ej: Nissan" required aria-describedby="error-marca" />
+    <div id="error-marca" class="error-message">Por favor ingresa la marca.</div>
+
+    <label for="modelo">Modelo</label>
+    <input id="modelo" type="text" placeholder="Ej: Versa" required aria-describedby="error-modelo" />
+    <div id="error-modelo" class="error-message">Por favor ingresa el modelo.</div>
+
+    <label for="anio">Año</label>
+    <input id="anio" type="number" placeholder="Ej: 2024" required min="1900" max="2100" aria-describedby="error-anio" />
+    <div id="error-anio" class="error-message">Por favor ingresa un año válido.</div>
+
+    <label for="precio">Precio</label>
+    <input id="precio" type="number" placeholder="Ej: 300000" required min="0" step="0.01" aria-describedby="error-precio" />
+    <div id="error-precio" class="error-message">Por favor ingresa un precio válido.</div>
+
+    <label for="enganche">Enganche</label>
+    <input id="enganche" type="number" placeholder="Ej: 50000" required min="0" step="0.01" aria-describedby="error-enganche" />
+    <div id="error-enganche" class="error-message">El enganche no puede ser mayor que el precio.</div>
+
+    <button type="button" id="btnCalcular">Calcular y mostrar cotización</button>
+    <button type="reset" id="btnReset">Limpiar formulario</button>
+    <button type="button" id="btnDescargar" aria-label="Descargar cotización como imagen">Descargar cotización como imagen</button> <!-- NUEVO -->
+  </form>
+
+  <div class="resultado" id="resultado" aria-live="polite" role="region" tabindex="-1"></div>
+
+  <section class="beneficios" aria-label="Beneficios de la concesionaria">
+    <h2>¿Por qué elegirnos?</h2>
+    <ul>
+      <li>Asesoría experta y trato personalizado.</li>
+      <li>Planes accesibles y sin letras chiquitas.</li>
+      <li>Confianza y experiencia en el mercado.</li>
+      <li>Respaldo y atención postventa.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const formulario = document.getElementById("formulario");
+    const btnCalcular = document.getElementById("btnCalcular");
+    const btnReset = document.getElementById("btnReset");
+    const btnDescargar = document.getElementById("btnDescargar"); // NUEVO
+    const resultado = document.getElementById("resultado");
+
+    const campos = {
+      marca: document.getElementById("marca"),
+      modelo: document.getElementById("modelo"),
+      anio: document.getElementById("anio"),
+      precio: document.getElementById("precio"),
+      enganche: document.getElementById("enganche")
+    };
+
+    const errores = {
+      marca: document.getElementById("error-marca"),
+      modelo: document.getElementById("error-modelo"),
+      anio: document.getElementById("error-anio"),
+      precio: document.getElementById("error-precio"),
+      enganche: document.getElementById("error-enganche")
+    };
+
+    function validarCampos() {
+      let valido = true;
+
+      if (!campos.marca.value.trim()) {
+        errores.marca.style.display = "block";
+        valido = false;
+      } else {
+        errores.marca.style.display = "none";
+      }
+
+      if (!campos.modelo.value.trim()) {
+        errores.modelo.style.display = "block";
+        valido = false;
+      } else {
+        errores.modelo.style.display = "none";
+      }
+
+      const anioVal = parseInt(campos.anio.value);
+      if (isNaN(anioVal) || anioVal < 1900 || anioVal > 2100) {
+        errores.anio.style.display = "block";
+        valido = false;
+      } else {
+        errores.anio.style.display = "none";
+      }
+
+      const precioVal = parseFloat(campos.precio.value);
+      if (isNaN(precioVal) || precioVal <= 0) {
+        errores.precio.style.display = "block";
+        valido = false;
+      } else {
+        errores.precio.style.display = "none";
+      }
+
+      const engancheVal = parseFloat(campos.enganche.value);
+      if (isNaN(engancheVal) || engancheVal < 0 || engancheVal > precioVal) {
+        errores.enganche.style.display = "block";
+        valido = false;
+      } else {
+        errores.enganche.style.display = "none";
+      }
+
+      return valido;
+    }
+
+    btnCalcular.addEventListener("click", () => {
+      if (!validarCampos()) {
+        resultado.style.display = "none";
+        btnDescargar.style.display = "none"; // ocultar botón si hay error
+        return;
+      }
+
+      const marca = campos.marca.value.trim();
+      const modelo = campos.modelo.value.trim();
+      const anio = parseInt(campos.anio.value);
+      const precio = parseFloat(campos.precio.value);
+      const enganche = parseFloat(campos.enganche.value);
+      const monto = precio - enganche;
+      const plazos = [12, 24, 36, 48, 60];
+
+      let tabla = `
+        <h3>Resultado de la Cotización</h3>
+        <p><strong>Marca:</strong> ${marca}</p>
+        <p><strong>Modelo:</strong> ${modelo}</p>
+        <p><strong>Año:</strong> ${anio}</p>
+        <p><strong>Precio:</strong> $${precio.toLocaleString('es-MX')}</p>
+        <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
+        <p><strong>Monto a financiar:</strong> $${monto.toLocaleString('es-MX')}</p>
+        <table>
+          <thead>
+            <tr><th>Meses</th><th>Cuota mensual</th></tr>
+          </thead>
+          <tbody>
+      `;
+
+      plazos.forEach(meses => {
+        const cuota = monto / meses;
+        tabla += `<tr><td>${meses}</td><td>$${cuota.toFixed(2).toLocaleString('es-MX')}</td></tr>`;
+      });
+
+      tabla += `</tbody></table>
+        <p class="footer">Ernesto Bustos - Tel: 8443812518</p>
+      `;
+
+      resultado.innerHTML = tabla;
+      resultado.style.display = "block";
+      resultado.focus();
+
+      btnDescargar.style.display = "block"; // Mostrar botón de descarga
+    });
+
+    btnReset.addEventListener("click", () => {
+      resultado.style.display = "none";
+      btnDescargar.style.display = "none";
+      Object.values(errores).forEach(e => e.style.display = "none");
+    });
+
+    btnDescargar.addEventListener("click", () => {
+      // Quitar temporalmente el foco para que no se capture el outline o elementos extraños
+      document.activeElement.blur();
+
+      html2canvas(resultado, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+      }).then(canvas => {
+        // Crear imagen PNG y descargar
+        canvas.toBlob(blob => {
+          if (window.navigator.msSaveOrOpenBlob) {
+            // Para IE y Edge
+            window.navigator.msSaveOrOpenBlob(blob, 'cotizacion-auto.png');
+          } else {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'cotizacion-auto.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }
+        }, 'image/png');
+      }).catch(err => {
+        alert("Error al generar la imagen. Intenta de nuevo.");
+        console.error(err);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
