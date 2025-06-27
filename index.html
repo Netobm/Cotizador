@@ -161,6 +161,9 @@
     <label>Precio</label>
     <input id="precio" type="number" placeholder="Ej: 300000" required>
 
+    <label>Enganche</label>
+    <input id="enganche" type="number" placeholder="Ej: 50000" required>
+
     <button type="button" id="btnCalcular">Calcular y mostrar cotización</button>
   </form>
 
@@ -190,13 +193,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const modelo = document.getElementById("modelo").value.trim();
     const anio = document.getElementById("anio").value.trim();
     const precio = parseFloat(document.getElementById("precio").value);
-    
-    if (!marca || !modelo || !anio || isNaN(precio) || precio <= 0) {
+    const enganche = parseFloat(document.getElementById("enganche").value);
+
+    if (!marca || !modelo || !anio || isNaN(precio) || precio <= 0 || isNaN(enganche) || enganche < 0 || enganche > precio) {
       resultado.style.display = "block";
       resultado.innerHTML = "<p style='color: red;'>Por favor verifica los campos ingresados.</p>";
       btnDescargar.style.display = "none";
       return;
     }
+
+    const monto = precio - enganche;
 
     let tabla = `
       <h3>Resultado de la Cotización</h3>
@@ -204,6 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <p><strong>Modelo:</strong> ${modelo}</p>
       <p><strong>Año:</strong> ${anio}</p>
       <p><strong>Precio:</strong> $${precio.toLocaleString()}</p>
+      <p><strong>Enganche:</strong> $${enganche.toLocaleString()}</p>
+      <p><strong>Monto a financiar:</strong> $${monto.toLocaleString()}</p>
       <table>
         <thead>
           <tr><th>Meses</th><th>Cuota mensual</th></tr>
@@ -213,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const plazos = [12, 24, 36, 48, 60];
     plazos.forEach(meses => {
-      const cuota = precio / meses;
+      const cuota = monto / meses;
       tabla += `<tr><td>${meses}</td><td>$${cuota.toFixed(2)}</td></tr>`;
     });
 
@@ -228,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnDescargar.addEventListener("click", () => {
     html2canvas(resultado, {scale: 2}).then(canvas => {
-      // Crea enlace para descargar
       const link = document.createElement('a');
       link.download = 'cotizacion.png';
       link.href = canvas.toDataURL("image/png");
