@@ -77,6 +77,13 @@
     button:hover {
       background-color: var(--azul-claro);
     }
+    #btnDescargar {
+      margin-top: 15px;
+      background-color: var(--verde);
+    }
+    #btnDescargar:hover {
+      background-color: #2e7d32;
+    }
     .resultado {
       display: none;
       background-color: var(--gris);
@@ -160,6 +167,7 @@
   </form>
 
   <div class="resultado" id="resultado"></div>
+  <button id="btnDescargar" style="display: none;">Descargar cotización como imagen</button>
 
   <div class="beneficios">
     <h2>¿Por qué elegirnos?</h2>
@@ -172,19 +180,25 @@
   </div>
 </div>
 
+<!-- Descargar como imagen -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("btnCalcular").addEventListener("click", () => {
+  const btnCalcular = document.getElementById("btnCalcular");
+  const btnDescargar = document.getElementById("btnDescargar");
+  const resultado = document.getElementById("resultado");
+
+  btnCalcular.addEventListener("click", () => {
     const marca = document.getElementById("marca").value.trim();
     const modelo = document.getElementById("modelo").value.trim();
     const anio = document.getElementById("anio").value.trim();
     const precio = parseFloat(document.getElementById("precio").value);
     const enganche = parseFloat(document.getElementById("enganche").value);
-    const resultado = document.getElementById("resultado");
 
     if (!marca || !modelo || !anio || isNaN(precio) || isNaN(enganche) || enganche > precio) {
       resultado.style.display = "block";
       resultado.innerHTML = "<p style='color: red;'>Por favor verifica los campos ingresados.</p>";
+      btnDescargar.style.display = "none";
       return;
     }
 
@@ -213,6 +227,16 @@ document.addEventListener("DOMContentLoaded", () => {
     tabla += `</tbody></table>`;
     resultado.innerHTML = tabla;
     resultado.style.display = "block";
+    btnDescargar.style.display = "block";
+  });
+
+  btnDescargar.addEventListener("click", () => {
+    html2canvas(resultado, { scale: 2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'cotizacion.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   });
 });
 </script>
