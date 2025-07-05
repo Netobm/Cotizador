@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cotizador de Autos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    :root {
+      --azul: #1a237e;
+      --azul-claro: #3949ab;
+      --gris: #f5f5f5;
+      --blanco: #ffffff;
+      --verde: #43a047;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--gris);
+      margin: 0;
+      padding: 0 20px 40px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      background: var(--blanco);
+      max-width: 700px;
+      width: 100%;
+      margin-top: 40px;
+      border-radius: 15px;
+      padding: 30px 40px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid var(--azul-claro);
+      padding-bottom: 12px;
+      margin-bottom: 30px;
+    }
+    header img {
+      height: 60px;
+      margin-right: 15px;
+      border-radius: 6px;
+    }
+    header h1 {
+      font-size: 24px;
+      color: var(--azul);
+      margin: 0;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: var(--azul);
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 25px;
+      background-color: var(--azul);
+      color: white;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    button:hover {
+      background-color: var(--azul-claro);
+    }
+    #btnDescargar {
+      margin-top: 15px;
+      background-color: var(--verde);
+    }
+    #btnDescargar:hover {
+      background-color: #2e7d32;
+    }
+    .resultado {
+      display: none;
+      background-color: var(--gris);
+      padding: 25px;
+      border-radius: 15px;
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      margin-top: 15px;
+    }
+    th, td {
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    th {
+      background-color: var(--azul);
+      color: white;
+    }
+    tbody tr {
+      background: var(--blanco);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .beneficios {
+      background-color: var(--azul-claro);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    .beneficios h2 {
+      text-align: center;
+    }
+    .beneficios ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 15px;
+    }
+    .beneficios li::before {
+      content: "✔";
+      color: var(--verde);
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <img src="https://i.imgur.com/dQqaNKo.png" alt="Logo" />
+    <h1>Cotizador de Autos</h1>
+  </header>
+
+  <form id="formulario" onsubmit="return false;">
+    <label>Número de inventario</label>
+    <input id="inventario" type="text" placeholder="Ej: C118">
+
+    <label>Marca</label>
+    <input id="marca" type="text" placeholder="Ej: Nissan" required>
+
+    <label>Modelo</label>
+    <input id="modelo" type="text" placeholder="Ej: Versa" required>
+
+    <label>Año</label>
+    <input id="anio" type="number" placeholder="Ej: 2024" required>
+
+    <label>Precio</label>
+    <input id="precio" type="number" placeholder="Ej: 300000" required>
+
+    <label>Enganche (editable)</label>
+    <input id="enganche" type="number" placeholder="Ej: 50000" required>
+
+    <button type="button" id="btnCalcular">Calcular y mostrar cotización</button>
+  </form>
+
+  <div class="resultado" id="resultado"></div>
+  <button id="btnDescargar" style="display: none;">Descargar cotización como imagen</button>
+
+  <div class="beneficios">
+    <h2>¿Por qué elegirnos?</h2>
+    <ul>
+      <li>Asesoría experta y trato personalizado.</li>
+      <li>Planes accesibles y sin letras chiquitas.</li>
+      <li>Confianza y experiencia en el mercado.</li>
+      <li>Respaldo y atención postventa.</li>
+    </ul>
+  </div>
+</div>
+
+<script src="inventario.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const inventarioInput = document.getElementById("inventario");
+  const marcaInput = document.getElementById("marca");
+  const modeloInput = document.getElementById("modelo");
+  const anioInput = document.getElementById("anio");
+  const precioInput = document.getElementById("precio");
+  const engancheInput = document.getElementById("enganche");
+
+  const btnCalcular = document.getElementById("btnCalcular");
+  const btnDescargar = document.getElementById("btnDescargar");
+  const resultado = document.getElementById("resultado");
+
+  inventarioInput.addEventListener("change", () => {
+    const codigo = inventarioInput.value.trim();
+    if (inventario.hasOwnProperty(codigo)) {
+      const auto = inventario[codigo];
+      marcaInput.value = auto.marca || "";
+      modeloInput.value = auto.modelo || "";
+      anioInput.value = auto.año || "";
+      precioInput.value = auto.precio || "";
+      engancheInput.value = Math.round(auto.precio * 0.25);
+    } else {
+      marcaInput.value = "";
+      modeloInput.value = "";
+      anioInput.value = "";
+      precioInput.value = "";
+      engancheInput.value = "";
+    }
+  });
+
+  btnCalcular.addEventListener("click", () => {
+    const marca = marcaInput.value.trim();
+    const modelo = modeloInput.value.trim();
+    const anio = anioInput.value.trim();
+    const precio = parseFloat(precioInput.value);
+    const enganche = parseFloat(engancheInput.value);
+
+    if (!marca || !modelo || !anio || isNaN(precio) || isNaN(enganche) || enganche > precio) {
+      resultado.style.display = "block";
+      resultado.innerHTML = "<p style='color: red;'>Por favor verifica los campos ingresados.</p>";
+      btnDescargar.style.display = "none";
+      return;
+    }
+
+    const monto = precio - enganche;
+    const plazos = [12, 24, 36, 48, 60];
+    let tabla = `
+      <h3>Resultado de la Cotización</h3>
+      <p><strong>Marca:</strong> ${marca}</p>
+      <p><strong>Modelo:</strong> ${modelo}</p>
+      <p><strong>Año:</strong> ${anio}</p>
+      <p><strong>Precio:</strong> $${precio.toLocaleString()}</p>
+      <p><strong>Enganche:</strong> $${enganche.toLocaleString()}</p>
+      <p><strong>Monto a financiar:</strong> $${monto.toLocaleString()}</p>
+      <table>
+        <thead>
+          <tr><th>Meses</th><th>Cuota mensual</th></tr>
+        </thead>
+        <tbody>
+    `;
+
+    plazos.forEach(meses => {
+      const cuota = monto / meses;
+      tabla += `<tr><td>${meses}</td><td>$${cuota.toFixed(2)}</td></tr>`;
+    });
+
+    tabla += `</tbody></table>`;
+    resultado.innerHTML = tabla;
+    resultado.style.display = "block";
+    btnDescargar.style.display = "block";
+  });
+
+  btnDescargar.addEventListener("click", () => {
+    html2canvas(resultado, { scale: 2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'cotizacion.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  });
+});
+</script>
+
+</body>
+</html>
 
