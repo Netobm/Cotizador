@@ -107,8 +107,17 @@
       background-color: #1a237e;
     }
 
+    #btnDescargar {
+      background-color: #1976d2;
+      margin-bottom: 18px;
+    }
+    #btnDescargar:hover {
+      background-color: #115293;
+    }
+
     #btnLimpiar {
       background-color: #455a64;
+      margin-top: 20px;
     }
     #btnLimpiar:hover {
       background-color: #37474f;
@@ -228,16 +237,19 @@
       <input type="number" id="enganche" placeholder="Ej: 60000" required />
 
       <button type="submit" id="btnCalcular" class="btn">Calcular y mostrar cotización</button>
-      <button type="button" id="btnLimpiar" class="btn">Limpiar formulario</button>
     </form>
 
     <div id="resultado"></div>
+
+    <button id="btnDescargar" class="btn" style="display:none;">Descargar imagen de cotización</button>
+    <button id="btnLimpiar" class="btn">Limpiar formulario</button>
   </main>
 
   <script>
     const form = document.getElementById("cotizadorForm");
     const resultado = document.getElementById("resultado");
     const btnLimpiar = document.getElementById("btnLimpiar");
+    const btnDescargar = document.getElementById("btnDescargar");
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -287,11 +299,46 @@
         </ul>
       `;
       resultado.style.display = "block";
+      btnDescargar.style.display = "block";
     });
 
     btnLimpiar.addEventListener("click", () => {
       form.reset();
       resultado.style.display = "none";
+      btnDescargar.style.display = "none";
+    });
+
+    btnDescargar.addEventListener("click", () => {
+      // Usamos html2canvas para capturar #resultado
+      html2canvas(resultado, {backgroundColor: null, scale: 2}).then(canvas => {
+        canvas.toBlob(blob => {
+          if (!blob) {
+            alert('Error al generar imagen.');
+            return;
+          }
+          // Descargar imagen
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'cotizacion.png';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+
+          // Copiar al portapapeles
+          if (navigator.clipboard && window.ClipboardItem) {
+            const clipboardItem = new ClipboardItem({ 'image/png': blob });
+            navigator.clipboard.write([clipboardItem]).then(() => {
+              alert('Imagen copiada al portapapeles y descargada.');
+            }).catch(() => {
+              alert('Imagen descargada, pero no se pudo copiar al portapapeles.');
+            });
+          } else {
+            alert('Imagen descargada. Tu navegador no soporta copiar imágenes automáticamente.');
+          }
+        }, 'image/png');
+      });
     });
   </script>
 </body>
