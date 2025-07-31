@@ -4,292 +4,197 @@
   <meta charset="UTF-8" />
   <title>Cotizador de Autos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    :root {
-      --azul: #1a237e;
-      --azul-claro: #3949ab;
-      --gris: #f5f5f5;
-      --blanco: #ffffff;
-      --verde: #43a047;
-      --rojo: #d32f2f;
-      --gris-claro: #999999;
-    }
-    * { box-sizing: border-box; }
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
-      background-color: var(--gris);
-      margin: 0;
-      padding: 0 15px 60px;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-      flex-direction: column;
-      align-items: center;
     }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
     .container {
-      background: var(--blanco);
-      max-width: 700px;
-      width: 100%;
-      margin-top: 40px;
-      border-radius: 15px;
-      padding: 30px 40px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    header {
-      /* Como no hay imagen, quito el flex para que el título quede alineado a la izquierda */
-      border-bottom: 3px solid var(--azul-claro);
-      padding-bottom: 12px;
-      margin-bottom: 30px;
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
     }
-    header h1 {
-      font-size: 28px;
-      color: var(--azul);
-      margin: 0;
-      font-weight: 700;
-    }
+
     label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
-      color: var(--azul);
+      color: #2c3e50;
     }
-    input[type="text"], input[type="number"] {
+
+    input {
       width: 100%;
-      padding: 12px 15px;
-      margin-top: 6px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 2px solid #ccc;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-    input:focus {
-      border-color: var(--azul-claro);
-      outline: none;
-      box-shadow: 0 0 6px var(--azul-claro);
-    }
-    .error-message {
-      color: var(--rojo);
-      font-size: 14px;
-      margin-top: 4px;
-      display: none;
-    }
+
     button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 25px;
-      background-color: var(--azul);
+      background-color: #2980b9;
       color: white;
-      border: none;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    button:hover { background-color: var(--azul-claro); }
-    #btnReset { background-color: var(--verde); margin-top: 10px; }
-    #btnReset:hover { background-color: #388e3c; }
-    #btnDescargar { background-color: #1976d2; margin-top: 15px; display: none; }
-    #btnDescargar:hover { background-color: #1565c0; }
-    .resultado {
-      display: none;
-      background-color: var(--gris);
-      padding: 25px;
-      border-radius: 15px;
-      margin-top: 30px;
-    }
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 10px;
-      margin-top: 15px;
-    }
-    th, td {
-      text-align: center;
       padding: 12px;
-      border-radius: 8px;
-    }
-    th { background-color: var(--azul); color: white; }
-    tbody tr {
-      background: var(--blanco);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .footer {
-      text-align: center;
-      margin-top: 15px;
-      color: var(--gris-claro);
-      font-style: italic;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    .beneficios {
-      background-color: var(--azul-claro);
-      color: white;
-      border-radius: 15px;
-      padding: 20px;
-      margin-top: 40px;
-    }
-    .beneficios h2 {
-      text-align: center;
-      margin: 0;
-    }
-    .beneficios li::before {
-      content: "✔";
-      color: var(--verde);
-      margin-right: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
       font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #1f6392;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      background-color: #ffffff;
+      padding: 40px 20px;
+      border-radius: 5px;
+      text-align: center;
+      border: 1px solid #ccc;
+      position: relative;
+      width: 100%;
+      min-height: 740px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .top-margin,
+    .bottom-margin {
+      height: 30px;
+    }
+
+    .precio-aprobacion {
+      text-align: center;
+      margin-top: 30px;
+      font-style: italic;
+      color: #888;
+      font-size: 16px;
+    }
+
+    .botones-descarga {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      margin-top: 10px;
+    }
+
+    .cotizacion-texto {
+      flex-grow: 1;
+    }
+
+    .copiado-alerta {
+      color: green;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>Cotizador de Autos</h1>
-    </header>
+    <h2>Cotizador de Autos</h2>
+    <label for="marca">Marca</label>
+    <input type="text" id="marca" placeholder="Ej. Nissan" />
 
-    <form id="formulario" onsubmit="return false;">
-      <label for="marca">Marca</label>
-      <input id="marca" type="text" placeholder="Ej: Nissan" />
-      <div id="error-marca" class="error-message">Por favor ingresa la marca.</div>
+    <label for="modelo">Modelo</label>
+    <input type="text" id="modelo" placeholder="Ej. Versa" />
 
-      <label for="modelo">Modelo</label>
-      <input id="modelo" type="text" placeholder="Ej: Versa" />
-      <div id="error-modelo" class="error-message">Por favor ingresa el modelo.</div>
+    <label for="anio">Año</label>
+    <input type="number" id="anio" placeholder="Ej. 2020" />
 
-      <label for="anio">Año</label>
-      <input id="anio" type="number" placeholder="Ej: 2024" />
-      <div id="error-anio" class="error-message">Por favor ingresa un año válido.</div>
+    <label for="precio">Precio</label>
+    <input type="number" id="precio" placeholder="Ej. 250000" />
 
-      <label for="precio">Precio</label>
-      <input id="precio" type="number" placeholder="Ej: 300000" />
-      <div id="error-precio" class="error-message">Por favor ingresa un precio válido.</div>
+    <button onclick="generarCotizacion()">Generar Cotización</button>
 
-      <label for="enganche">Enganche</label>
-      <input id="enganche" type="number" placeholder="Ej: 50000" />
-      <div id="error-enganche" class="error-message">El enganche no puede ser mayor que el precio.</div>
+    <div class="botones-descarga" id="botones" style="display: none;">
+      <button onclick="descargarYCopiar()">Descargar y Copiar al Portapapeles</button>
+      <div class="copiado-alerta" id="copiado-alerta" style="display:none;">✅ Copiada al portapapeles</div>
+    </div>
 
-      <button type="button" id="btnCalcular">Calcular y mostrar cotización</button>
-      <button type="reset" id="btnReset">Limpiar formulario</button>
-      <button type="button" id="btnDescargar">Generar imagen con la cotización</button>
-    </form>
-
-    <div class="resultado" id="resultado"></div>
-
-    <section class="beneficios">
-      <h2>¿Por qué elegirnos?</h2>
-      <ul>
-        <li>Asesoría experta y trato personalizado.</li>
-        <li>Planes accesibles y sin letras chiquitas.</li>
-        <li>Confianza y experiencia en el mercado.</li>
-        <li>Respaldo y atención postventa.</li>
-      </ul>
-    </section>
+    <div id="resultado"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const campos = {
-        marca: document.getElementById("marca"),
-        modelo: document.getElementById("modelo"),
-        anio: document.getElementById("anio"),
-        precio: document.getElementById("precio"),
-        enganche: document.getElementById("enganche")
-      };
-      const errores = {
-        marca: document.getElementById("error-marca"),
-        modelo: document.getElementById("error-modelo"),
-        anio: document.getElementById("error-anio"),
-        precio: document.getElementById("error-precio"),
-        enganche: document.getElementById("error-enganche")
-      };
-      const resultado = document.getElementById("resultado");
-      const btnCalcular = document.getElementById("btnCalcular");
-      const btnReset = document.getElementById("btnReset");
-      const btnDescargar = document.getElementById("btnDescargar");
+    function generarCotizacion() {
+      const marca = document.getElementById('marca').value;
+      const modelo = document.getElementById('modelo').value;
+      const anio = document.getElementById('anio').value;
+      const precio = document.getElementById('precio').value;
 
-      function validarCampos() {
-        let valido = true;
-        if (!campos.marca.value.trim()) { errores.marca.style.display = "block"; valido = false; } else { errores.marca.style.display = "none"; }
-        if (!campos.modelo.value.trim()) { errores.modelo.style.display = "block"; valido = false; } else { errores.modelo.style.display = "none"; }
-        const anio = parseInt(campos.anio.value);
-        if (isNaN(anio) || anio < 1900 || anio > 2100) { errores.anio.style.display = "block"; valido = false; } else { errores.anio.style.display = "none"; }
-        const precio = parseFloat(campos.precio.value);
-        if (isNaN(precio) || precio <= 0) { errores.precio.style.display = "block"; valido = false; } else { errores.precio.style.display = "none"; }
-        const enganche = parseFloat(campos.enganche.value);
-        if (isNaN(enganche) || enganche < 0 || enganche > precio) { errores.enganche.style.display = "block"; valido = false; } else { errores.enganche.style.display = "none"; }
-        return valido;
+      if (!marca || !modelo || !anio || !precio) {
+        alert("Por favor completa todos los campos.");
+        return;
       }
 
-      btnCalcular.addEventListener("click", () => {
-        if (!validarCampos()) {
-          resultado.style.display = "none";
-          btnDescargar.style.display = "none";
-          return;
-        }
+      const resultado = document.getElementById('resultado');
+      resultado.innerHTML = `
+        <div class="top-margin"></div>
+        <div class="cotizacion-texto">
+          <h3>${marca} ${modelo} ${anio}</h3>
+          <p><strong>Precio:</strong> $${Number(precio).toLocaleString()}</p>
+          <div class="precio-aprobacion">*Precio sujeto a aprobación</div>
+        </div>
+        <div class="bottom-margin"></div>
+      `;
 
-        const marca = campos.marca.value;
-        const modelo = campos.modelo.value;
-        const anio = parseInt(campos.anio.value);
-        const precio = parseFloat(campos.precio.value);
-        const enganche = parseFloat(campos.enganche.value);
-        const monto = precio - enganche;
-        const plazos = [12, 24, 36, 48, 60];
+      document.getElementById('botones').style.display = "block";
+      document.getElementById('copiado-alerta').style.display = "none";
+    }
 
-        let tabla = `
-          <h3>Resultado de la Cotización</h3>
-          <p><strong>Marca:</strong> ${marca}</p>
-          <p><strong>Modelo:</strong> ${modelo}</p>
-          <p><strong>Año:</strong> ${anio}</p>
-          <p><strong>Precio:</strong> $${precio.toLocaleString('es-MX')}</p>
-          <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
-          <p><strong>Monto a financiar:</strong> $${monto.toLocaleString('es-MX')}</p>
-          <table>
-            <thead><tr><th>Meses</th><th>Cuota mensual</th></tr></thead><tbody>
-        `;
+    function descargarYCopiar() {
+      const resultado = document.getElementById('resultado');
 
-        plazos.forEach(meses => {
-          const cuota = monto / meses;
-          tabla += `<tr><td>${meses}</td><td>$${cuota.toFixed(2).toLocaleString('es-MX')}</td></tr>`;
-        });
+      html2canvas(resultado, {
+        backgroundColor: "#ffffff",
+        scale: 3,
+        width: 600,
+        height: 800,
+        useCORS: true
+      }).then(canvas => {
+        // Descargar como imagen
+        const link = document.createElement('a');
+        link.download = 'cotizacion.jpg';
+        link.href = canvas.toDataURL("image/jpeg", 0.95);
+        link.click();
 
-        tabla += `</tbody></table>`;
-        tabla += `<p class="footer">*Precio sujeto a aprobación*</p>`;
-
-        resultado.innerHTML = tabla;
-        resultado.style.display = "block";
-        resultado.focus();
-        btnDescargar.style.display = "block";
-      });
-
-      btnReset.addEventListener("click", () => {
-        resultado.style.display = "none";
-        btnDescargar.style.display = "none";
-        Object.values(errores).forEach(e => e.style.display = "none");
-      });
-
-      btnDescargar.addEventListener("click", () => {
-        document.activeElement.blur();
-        html2canvas(resultado, {
-          backgroundColor: null,
-          scale: 2,
-          useCORS: true,
-        }).then(canvas => {
+        // Copiar al portapapeles como imagen (si es compatible)
+        if (navigator.clipboard && navigator.clipboard.write) {
           canvas.toBlob(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'cotizacion-auto.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-          }, 'image/png');
-        }).catch(err => {
-          alert("Error al generar la imagen. Intenta de nuevo.");
-          console.error(err);
-        });
+            const item = new ClipboardItem({ "image/jpeg": blob });
+            navigator.clipboard.write([item])
+              .then(() => {
+                document.getElementById('copiado-alerta').style.display = "block";
+              })
+              .catch(err => {
+                console.log("No se pudo copiar al portapapeles:", err);
+              });
+          }, "image/jpeg", 0.95);
+        }
       });
-    });
+    }
   </script>
 </body>
 </html>
