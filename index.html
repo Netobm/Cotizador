@@ -106,8 +106,8 @@
       max-width: 480px;
       margin-top: 25px;
       padding: 20px 22px;
-      background-color: #3949ab;
-      color: white;
+      background-color: #fff; /* Cambiado a blanco */
+      color: #1a237e; /* Azul oscuro */
       border-radius: 8px;
       box-sizing: border-box;
       user-select: text;
@@ -157,6 +157,7 @@
       color: #1a237e;
       border-radius: 6px;
       overflow: hidden;
+      box-shadow: 0 0 8px rgb(33 33 33 / 0.1);
     }
 
     #tablaResultados th, #tablaResultados td {
@@ -174,11 +175,11 @@
     }
 
     #precioAprobacion {
-      margin-top: 16px;
+      margin-top: 12px;
       font-style: italic;
       font-weight: 600;
       text-align: center;
-      color: #c5cae9;
+      color: #3949ab; /* Azul legible sobre blanco */
       user-select: none;
     }
   </style>
@@ -206,15 +207,7 @@
     <button type="button" id="btnLimpiar" class="btn">Limpiar formulario</button>
   </form>
 
-  <div id="resultado">
-    <h3>¿Por qué elegirnos?</h3>
-    <ul>
-      <li>Asesoría experta y trato personalizado.</li>
-      <li>Planes accesibles y sin letras chiquitas.</li>
-      <li>Confianza y experiencia en el mercado.</li>
-      <li>Respaldo y atención postventa.</li>
-    </ul>
-  </div>
+  <div id="resultado"></div>
 
   <script>
     const form = document.getElementById("cotizadorForm");
@@ -238,7 +231,6 @@
       const monto = precio - enganche;
       const plazos = [12, 24, 36, 48, 60];
 
-      // Construir tabla cuotas
       let tabla = `
         <table id="tablaResultados" aria-label="Tabla de cuotas mensuales">
           <thead>
@@ -252,7 +244,6 @@
       });
       tabla += `</tbody></table>`;
 
-      // Mostrar cotización + tabla
       resultado.innerHTML = `
         <h3>Resultado de la Cotización</h3>
         <p><strong>Marca:</strong> ${marca}</p>
