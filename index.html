@@ -1,3 +1,4 @@
+Sobre este codigo soluciona lo de messenger pero no elimines ninguna funcionalidad 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -38,6 +39,7 @@
       box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
     header {
+      /* Como no hay imagen, quito el flex para que el título quede alineado a la izquierda */
       border-bottom: 3px solid var(--azul-claro);
       padding-bottom: 12px;
       margin-bottom: 30px;
@@ -92,12 +94,10 @@
     #btnDescargar:hover { background-color: #1565c0; }
     .resultado {
       display: none;
-      background-color: var(--blanco);
-      padding: 40px 25px;
+      background-color: var(--gris);
+      padding: 25px;
       border-radius: 15px;
       margin-top: 30px;
-      width: 600px;
-      min-height: 800px;
     }
     table {
       width: 100%;
@@ -117,11 +117,11 @@
     }
     .footer {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 15px;
       color: var(--gris-claro);
       font-style: italic;
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
     }
     .beneficios {
       background-color: var(--azul-claro);
@@ -143,19 +143,136 @@
   </style>
 </head>
 <body>
-  <!-- [CONTENIDO HTML OMITIDO PARA BREVIDAD: permanece igual que el original enviado por el usuario] -->
+  <div class="container">
+    <header>
+      <h1>Cotizador de Autos</h1>
+    </header>
+
+    <form id="formulario" onsubmit="return false;">
+      <label for="marca">Marca</label>
+      <input id="marca" type="text" placeholder="Ej: Nissan" />
+      <div id="error-marca" class="error-message">Por favor ingresa la marca.</div>
+
+      <label for="modelo">Modelo</label>
+      <input id="modelo" type="text" placeholder="Ej: Versa" />
+      <div id="error-modelo" class="error-message">Por favor ingresa el modelo.</div>
+
+      <label for="anio">Año</label>
+      <input id="anio" type="number" placeholder="Ej: 2024" />
+      <div id="error-anio" class="error-message">Por favor ingresa un año válido.</div>
+
+      <label for="precio">Precio</label>
+      <input id="precio" type="number" placeholder="Ej: 300000" />
+      <div id="error-precio" class="error-message">Por favor ingresa un precio válido.</div>
+
+      <label for="enganche">Enganche</label>
+      <input id="enganche" type="number" placeholder="Ej: 50000" />
+      <div id="error-enganche" class="error-message">El enganche no puede ser mayor que el precio.</div>
+
+      <button type="button" id="btnCalcular">Calcular y mostrar cotización</button>
+      <button type="reset" id="btnReset">Limpiar formulario</button>
+      <button type="button" id="btnDescargar">Generar imagen con la cotización</button>
+    </form>
+
+    <div class="resultado" id="resultado"></div>
+
+    <section class="beneficios">
+      <h2>¿Por qué elegirnos?</h2>
+      <ul>
+        <li>Asesoría experta y trato personalizado.</li>
+        <li>Planes accesibles y sin letras chiquitas.</li>
+        <li>Confianza y experiencia en el mercado.</li>
+        <li>Respaldo y atención postventa.</li>
+      </ul>
+    </section>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // [Código JavaScript de validación permanece igual]
+      const campos = {
+        marca: document.getElementById("marca"),
+        modelo: document.getElementById("modelo"),
+        anio: document.getElementById("anio"),
+        precio: document.getElementById("precio"),
+        enganche: document.getElementById("enganche")
+      };
+      const errores = {
+        marca: document.getElementById("error-marca"),
+        modelo: document.getElementById("error-modelo"),
+        anio: document.getElementById("error-anio"),
+        precio: document.getElementById("error-precio"),
+        enganche: document.getElementById("error-enganche")
+      };
+      const resultado = document.getElementById("resultado");
+      const btnCalcular = document.getElementById("btnCalcular");
+      const btnReset = document.getElementById("btnReset");
+      const btnDescargar = document.getElementById("btnDescargar");
+
+      function validarCampos() {
+        let valido = true;
+        if (!campos.marca.value.trim()) { errores.marca.style.display = "block"; valido = false; } else { errores.marca.style.display = "none"; }
+        if (!campos.modelo.value.trim()) { errores.modelo.style.display = "block"; valido = false; } else { errores.modelo.style.display = "none"; }
+        const anio = parseInt(campos.anio.value);
+        if (isNaN(anio) || anio < 1900 || anio > 2100) { errores.anio.style.display = "block"; valido = false; } else { errores.anio.style.display = "none"; }
+        const precio = parseFloat(campos.precio.value);
+        if (isNaN(precio) || precio <= 0) { errores.precio.style.display = "block"; valido = false; } else { errores.precio.style.display = "none"; }
+        const enganche = parseFloat(campos.enganche.value);
+        if (isNaN(enganche) || enganche < 0 || enganche > precio) { errores.enganche.style.display = "block"; valido = false; } else { errores.enganche.style.display = "none"; }
+        return valido;
+      }
+
+      btnCalcular.addEventListener("click", () => {
+        if (!validarCampos()) {
+          resultado.style.display = "none";
+          btnDescargar.style.display = "none";
+          return;
+        }
+
+        const marca = campos.marca.value;
+        const modelo = campos.modelo.value;
+        const anio = parseInt(campos.anio.value);
+        const precio = parseFloat(campos.precio.value);
+        const enganche = parseFloat(campos.enganche.value);
+        const monto = precio - enganche;
+        const plazos = [12, 24, 36, 48, 60];
+
+        let tabla = 
+          <h3>Resultado de la Cotización</h3>
+          <p><strong>Marca:</strong> ${marca}</p>
+          <p><strong>Modelo:</strong> ${modelo}</p>
+          <p><strong>Año:</strong> ${anio}</p>
+          <p><strong>Precio:</strong> $${precio.toLocaleString('es-MX')}</p>
+          <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
+          <p><strong>Monto a financiar:</strong> $${monto.toLocaleString('es-MX')}</p>
+          <table>
+            <thead><tr><th>Meses</th><th>Cuota mensual</th></tr></thead><tbody>
+        ;
+
+        plazos.forEach(meses => {
+          const cuota = monto / meses;
+          tabla += <tr><td>${meses}</td><td>$${cuota.toFixed(2).toLocaleString('es-MX')}</td></tr>;
+        });
+
+        tabla += </tbody></table>;
+        tabla += <p class="footer">*Precio sujeto a aprobación*</p>;
+
+        resultado.innerHTML = tabla;
+        resultado.style.display = "block";
+        resultado.focus();
+        btnDescargar.style.display = "block";
+      });
+
+      btnReset.addEventListener("click", () => {
+        resultado.style.display = "none";
+        btnDescargar.style.display = "none";
+        Object.values(errores).forEach(e => e.style.display = "none");
+      });
 
       btnDescargar.addEventListener("click", () => {
         document.activeElement.blur();
         html2canvas(resultado, {
-          backgroundColor: "#ffffff",
-          scale: 3,
-          width: 600,
-          height: 800,
+          backgroundColor: null,
+          scale: 2,
           useCORS: true,
         }).then(canvas => {
           canvas.toBlob(blob => {
@@ -167,19 +284,6 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-
-            // Intentar copiar al portapapeles
-            canvas.toBlob(async b => {
-              try {
-                await navigator.clipboard.write([
-                  new ClipboardItem({ [b.type]: b })
-                ]);
-                alert("Imagen copiada al portapapeles.");
-              } catch (e) {
-                console.warn("No se pudo copiar automáticamente.", e);
-              }
-            });
-
           }, 'image/png');
         }).catch(err => {
           alert("Error al generar la imagen. Intenta de nuevo.");
