@@ -8,89 +8,195 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+    /* Reset y base */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      margin: 0;
+      padding: 30px 15px;
+      color: #263238;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     h1 {
-      text-align: center;
-      color: #2c3e50;
+      font-weight: 700;
+      color: #00796b;
+      margin-bottom: 30px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      user-select: none;
     }
 
     form {
-      max-width: 500px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 480px;
+      background: #ffffffdd;
+      padding: 25px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0, 121, 107, 0.15);
+      transition: box-shadow 0.3s ease;
+    }
+    form:hover {
+      box-shadow: 0 15px 30px rgba(0, 121, 107, 0.3);
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: 600;
-      color: #34495e;
+      color: #004d40;
+      font-size: 0.95rem;
+      user-select: none;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border: 1.8px solid #b2dfdb;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #004d40;
+      background: #e0f2f1;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline-offset: 2px;
+    }
+    input:focus {
+      border-color: #00796b;
+      box-shadow: 0 0 8px #00796baa;
+      background: #ffffff;
     }
 
-    button {
+    button[type="submit"] {
       width: 100%;
-      padding: 12px;
-      background-color: #3498db;
+      padding: 14px 0;
+      background-color: #00796b;
       color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
       border: none;
-      border-radius: 8px;
-      font-weight: 600;
+      border-radius: 14px;
       cursor: pointer;
-      margin-top: 10px;
+      box-shadow: 0 6px 12px #004d40bb;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
     }
-
-    button:hover {
-      background-color: #2980b9;
+    button[type="submit"]:hover {
+      background-color: #004d40;
+      box-shadow: 0 8px 20px #00332bcc;
     }
 
     #resultado {
-      max-width: 600px;
-      margin: 20px auto;
-      background: #e8f5e9;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      text-align: left;
+      margin-top: 35px;
+      width: 100%;
+      max-width: 560px;
+      background: #ffffffcc;
+      padding: 25px 30px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(38, 50, 56, 0.1);
+      color: #004d40;
+      user-select: text;
     }
 
     #resultado h3 {
       margin-top: 0;
-      color: #2e7d32;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #00695c;
+      text-align: center;
+      user-select: none;
+    }
+
+    #resultado p {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin: 6px 0;
     }
 
     #resultado table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      margin-top: 15px;
+      font-size: 1rem;
     }
 
-    #resultado th, #resultado td {
-      border: 1px solid #ccc;
-      padding: 10px;
+    #resultado thead tr th {
+      background-color: #00796b;
+      color: #e0f2f1;
+      padding: 12px 0;
+      border-radius: 12px 12px 0 0;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    #resultado tbody tr {
+      background-color: #b2dfdb;
+      border-radius: 12px;
+      box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    #resultado tbody tr:hover {
+      background-color: #80cbc4;
+    }
+
+    #resultado tbody td {
+      padding: 10px 0;
       text-align: center;
+      color: #004d40;
+      font-weight: 600;
+      user-select: text;
     }
 
     .footer {
       text-align: center;
       font-style: italic;
-      margin-top: 15px;
-      color: #888;
+      margin-top: 25px;
+      color: #00796bdd;
+      font-weight: 600;
+      font-size: 1.05rem;
+      user-select: none;
+    }
+
+    /* Botón descargar */
+    #btnDescargar {
+      margin: 30px auto 0;
+      display: block;
+      padding: 14px 30px;
+      background-color: #004d40;
+      color: white;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 14px #00271baa;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      max-width: 250px;
+    }
+    #btnDescargar:hover {
+      background-color: #00271b;
+    }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      form, #resultado {
+        padding: 20px;
+        max-width: 100%;
+      }
+
+      button[type="submit"], #btnDescargar {
+        font-size: 1rem;
+        padding: 12px 0;
+      }
     }
   </style>
 </head>
@@ -98,19 +204,19 @@
   <h1>Cotizador de Autos</h1>
   <form id="cotizadorForm">
     <label for="marca">Marca:</label>
-    <input type="text" id="marca" required>
+    <input type="text" id="marca" required />
 
     <label for="modelo">Modelo:</label>
-    <input type="text" id="modelo" required>
+    <input type="text" id="modelo" required />
 
     <label for="anio">Año:</label>
-    <input type="number" id="anio" required>
+    <input type="number" id="anio" required />
 
     <label for="precio">Precio:</label>
-    <input type="number" id="precio" required>
+    <input type="number" id="precio" required />
 
     <label for="enganche">Enganche:</label>
-    <input type="number" id="enganche" required>
+    <input type="number" id="enganche" required />
 
     <button type="submit">Generar Cotización</button>
   </form>
