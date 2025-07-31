@@ -38,16 +38,10 @@
       box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
     header {
-      display: flex;
-      align-items: center;
+      /* Como no hay imagen, quito el flex para que el título quede alineado a la izquierda */
       border-bottom: 3px solid var(--azul-claro);
       padding-bottom: 12px;
       margin-bottom: 30px;
-    }
-    header img {
-      height: 60px;
-      margin-right: 15px;
-      border-radius: 6px;
     }
     header h1 {
       font-size: 28px;
@@ -150,7 +144,6 @@
 <body>
   <div class="container">
     <header>
-      <img src="https://via.placeholder.com/150x60?text=Tu+Logo" alt="Logo" />
       <h1>Cotizador de Autos</h1>
     </header>
 
