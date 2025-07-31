@@ -38,7 +38,6 @@
       box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
     header {
-      /* Como no hay imagen, quito el flex para que el título quede alineado a la izquierda */
       border-bottom: 3px solid var(--azul-claro);
       padding-bottom: 12px;
       margin-bottom: 30px;
@@ -235,7 +234,7 @@
         const monto = precio - enganche;
         const plazos = [12, 24, 36, 48, 60];
 
-        let tabla = 
+        let tabla = `
           <h3>Resultado de la Cotización</h3>
           <p><strong>Marca:</strong> ${marca}</p>
           <p><strong>Modelo:</strong> ${modelo}</p>
@@ -244,17 +243,13 @@
           <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
           <p><strong>Monto a financiar:</strong> $${monto.toLocaleString('es-MX')}</p>
           <table>
-            <thead><tr><th>Meses</th><th>Cuota mensual</th></tr></thead><tbody>
-        ;
-
+            <thead><tr><th>Meses</th><th>Cuota mensual</th></tr></thead>
+            <tbody>`;
         plazos.forEach(meses => {
           const cuota = monto / meses;
-          tabla += <tr><td>${meses}</td><td>$${cuota.toFixed(2).toLocaleString('es-MX')}</td></tr>;
+          tabla += `<tr><td>${meses}</td><td>$${cuota.toFixed(2).toLocaleString('es-MX')}</td></tr>`;
         });
-
-        tabla += </tbody></table>;
-        tabla += <p class="footer">*Precio sujeto a aprobación*</p>;
-
+        tabla += `</tbody></table><p class="footer">*Precio sujeto a aprobación*</p>`;
         resultado.innerHTML = tabla;
         resultado.style.display = "block";
         resultado.focus();
@@ -269,27 +264,5 @@
 
       btnDescargar.addEventListener("click", () => {
         document.activeElement.blur();
-        html2canvas(resultado, {
-          backgroundColor: null,
-          scale: 2,
-          useCORS: true,
-        }).then(canvas => {
-          canvas.toBlob(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'cotizacion-auto.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-          }, 'image/png');
-        }).catch(err => {
-          alert("Error al generar la imagen. Intenta de nuevo.");
-          console.error(err);
-        });
-      });
-    });
-  </script>
-</body>
-</html>
+
+        const originalTra
