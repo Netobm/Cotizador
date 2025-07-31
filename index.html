@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Autos Seminuevos Fundadores</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     body {
@@ -136,29 +136,27 @@
 
   <form id="formulario">
     <label for="marca">Marca:</label>
-    <input type="text" id="marca" required>
+    <input type="text" id="marca" required />
 
     <label for="modelo">Modelo:</label>
-    <input type="text" id="modelo" required>
+    <input type="text" id="modelo" required />
 
     <label for="año">Año:</label>
-    <input type="number" id="año" required>
+    <input type="number" id="año" required />
 
     <label for="precio">Precio:</label>
-    <input type="number" id="precio" required>
+    <input type="number" id="precio" required />
 
     <label for="enganche">Enganche:</label>
-    <input type="number" id="enganche" required>
+    <input type="number" id="enganche" required />
 
     <button type="button" onclick="generarCotizacion()">Generar cotización</button>
   </form>
 
   <div id="cotizacion" style="display:none;">
-    <div id="datosAuto">
-      <!-- Datos del auto se agregan aquí -->
-    </div>
+    <div id="datosAuto"></div>
 
-    <table id="tablaResultados">
+    <table id="tablaResultados" aria-label="Tabla de cuotas mensuales">
       <thead>
         <tr>
           <th>Plazo</th>
@@ -167,6 +165,7 @@
       </thead>
       <tbody></tbody>
     </table>
+
     <p id="precioAprobacion">*Precio sujeto a aprobación*</p>
 
     <ul>
@@ -204,7 +203,6 @@
         tbody.innerHTML += row;
       });
 
-      // Mostrar datos del auto
       const datosDiv = document.getElementById("datosAuto");
       datosDiv.innerHTML = `
         <p><strong>Marca:</strong> ${marca}</p>
@@ -220,7 +218,11 @@
 
     function descargarImagen() {
       const div = document.getElementById("cotizacion");
-      html2canvas(div, {scale: 3}).then(canvas => {
+      const botonDescargar = div.querySelector("button");
+
+      botonDescargar.style.display = "none";
+
+      html2canvas(div, { scale: 3 }).then(canvas => {
         canvas.toBlob(blob => {
           const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
@@ -228,13 +230,13 @@
           link.download = "cotizacion.png";
           link.click();
 
-          // Copiar imagen al portapapeles
           navigator.clipboard.write([
             new ClipboardItem({ "image/png": blob })
           ]).catch(() => {
-            // fallback o mensaje si falla el copiado automático
             console.warn("No se pudo copiar la imagen automáticamente.");
           });
+
+          botonDescargar.style.display = "block";
         });
       });
     }
