@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Cotizador de Autos - Ernesto Bustos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- html2canvas CDN -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -240,16 +239,18 @@
         const monto = precio - enganche;
         const plazos = [12, 24, 36, 48, 60];
 
-       let tabla = `
-  <h3>Resultado de la Cotización</h3>
-  <p><strong>Marca:</strong> ${marca}</p>
-  <p><strong>Modelo:</strong> ${modelo}</p>
-  <p><strong>Año:</strong> ${anio}</p>
-  <p><strong>Precio:</strong> $${precio.toLocaleString('es-MX')}</p>
-  <p style="color: red; font-style: italic; font-weight: bold; text-align: center;">*Precio sujeto a aprobación*</p>
-  <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
-  <p><strong>Monto a financiar:</strong> $${monto.toLocaleString('es-MX')}</p>
-
+        let tabla = `
+          <h3>Resultado de la Cotización</h3>
+          <p><strong>Marca:</strong> ${marca}</p>
+          <p><strong>Modelo:</strong> ${modelo}</p>
+          <p><strong>Año:</strong> ${anio}</p>
+          <p><strong>Precio:</strong> $${precio.toLocaleString('es-MX')}</p>
+          <p style="color: red; font-style: italic; font-weight: bold; text-align: center;">*Precio sujeto a aprobación*</p>
+          <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
+          <p><strong>Monto a financiar:</strong> $${monto.toLocaleString('es-MX')}</p>
+          <table>
+            <thead><tr><th>Meses</th><th>Cuota mensual</th></tr></thead><tbody>
+        `;
 
         plazos.forEach(meses => {
           const cuota = monto / meses;
