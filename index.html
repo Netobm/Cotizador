@@ -69,6 +69,11 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
+    #datosAuto p {
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+
     #tablaResultados {
       width: 100%;
       border-collapse: separate;
@@ -149,6 +154,10 @@
   </form>
 
   <div id="cotizacion" style="display:none;">
+    <div id="datosAuto">
+      <!-- Datos del auto se agregan aquí -->
+    </div>
+
     <table id="tablaResultados">
       <thead>
         <tr>
@@ -195,21 +204,37 @@
         tbody.innerHTML += row;
       });
 
+      // Mostrar datos del auto
+      const datosDiv = document.getElementById("datosAuto");
+      datosDiv.innerHTML = `
+        <p><strong>Marca:</strong> ${marca}</p>
+        <p><strong>Modelo:</strong> ${modelo}</p>
+        <p><strong>Año:</strong> ${año}</p>
+        <p><strong>Precio:</strong> $${precio.toLocaleString('es-MX')}</p>
+        <p><strong>Enganche:</strong> $${enganche.toLocaleString('es-MX')}</p>
+        <p><strong>Monto a financiar:</strong> $${montoFinanciar.toLocaleString('es-MX')}</p>
+      `;
+
       document.getElementById("cotizacion").style.display = "block";
     }
 
     function descargarImagen() {
       const div = document.getElementById("cotizacion");
-      html2canvas(div).then(canvas => {
+      html2canvas(div, {scale: 3}).then(canvas => {
         canvas.toBlob(blob => {
           const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = url;
           link.download = "cotizacion.png";
           link.click();
+
+          // Copiar imagen al portapapeles
           navigator.clipboard.write([
             new ClipboardItem({ "image/png": blob })
-          ]);
+          ]).catch(() => {
+            // fallback o mensaje si falla el copiado automático
+            console.warn("No se pudo copiar la imagen automáticamente.");
+          });
         });
       });
     }
