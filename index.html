@@ -102,13 +102,6 @@
     .cotizacion-texto {
       flex-grow: 1;
     }
-
-    .copiado-alerta {
-      color: green;
-      font-size: 14px;
-      text-align: center;
-      margin-top: 5px;
-    }
   </style>
 </head>
 <body>
@@ -129,8 +122,7 @@
     <button onclick="generarCotizacion()">Generar Cotización</button>
 
     <div class="botones-descarga" id="botones" style="display: none;">
-      <button onclick="descargarYCopiar()">Descargar y Copiar al Portapapeles</button>
-      <div class="copiado-alerta" id="copiado-alerta" style="display:none;">✅ Copiada al portapapeles</div>
+      <button onclick="descargarImagen()">Descargar como imagen</button>
     </div>
 
     <div id="resultado"></div>
@@ -161,10 +153,9 @@
       `;
 
       document.getElementById('botones').style.display = "block";
-      document.getElementById('copiado-alerta').style.display = "none";
     }
 
-    function descargarYCopiar() {
+    function descargarImagen() {
       const resultado = document.getElementById('resultado');
 
       html2canvas(resultado, {
@@ -174,25 +165,10 @@
         height: 800,
         useCORS: true
       }).then(canvas => {
-        // Descargar como imagen
         const link = document.createElement('a');
         link.download = 'cotizacion.jpg';
         link.href = canvas.toDataURL("image/jpeg", 0.95);
         link.click();
-
-        // Copiar al portapapeles como imagen (si es compatible)
-        if (navigator.clipboard && navigator.clipboard.write) {
-          canvas.toBlob(blob => {
-            const item = new ClipboardItem({ "image/jpeg": blob });
-            navigator.clipboard.write([item])
-              .then(() => {
-                document.getElementById('copiado-alerta').style.display = "block";
-              })
-              .catch(err => {
-                console.log("No se pudo copiar al portapapeles:", err);
-              });
-          }, "image/jpeg", 0.95);
-        }
       });
     }
   </script>
