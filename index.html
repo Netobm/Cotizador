@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Cotizador de Autos</title>
+  <title>Autos Seminuevos Fundadores</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
@@ -10,204 +10,241 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: #fff;
-      margin: 20px;
-      color: #1a237e;
+      background: linear-gradient(135deg, #283593 0%, #3949ab 100%);
+      margin: 0;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      color: #1a237e;
+    }
+
+    main {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgb(33 33 33 / 0.15);
+      max-width: 520px;
+      width: 100%;
+      padding: 30px 35px 40px 35px;
+      box-sizing: border-box;
     }
 
     h1 {
-      color: #1a237e;
-      font-weight: 700;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      user-select: none;
+      color: #283593;
+      font-weight: 800;
+      font-size: 2.4rem;
+      margin-bottom: 20px;
       text-align: center;
-      width: 100%;
-      max-width: 480px;
-      border-bottom: 2px solid #1a237e;
-      padding-bottom: 5px;
+      user-select: none;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      text-shadow: 0 1px 3px rgba(40,53,147,0.5);
     }
 
     form {
       width: 100%;
-      max-width: 480px;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     label {
       display: block;
       font-weight: 600;
-      font-size: 0.85rem;
-      margin-bottom: 4px;
-      color: #1a237e;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #3949ab;
       user-select: none;
+      letter-spacing: 0.03em;
     }
 
     input[type="text"],
     input[type="number"] {
       width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 16px;
-      border: 1.5px solid #ccc;
-      border-radius: 6px;
-      font-size: 0.9rem;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      border: 2px solid #c5cae9;
+      border-radius: 12px;
+      font-size: 1rem;
       color: #222;
       box-sizing: border-box;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      background-color: #f9faff;
+      font-weight: 500;
+      letter-spacing: 0.02em;
     }
 
     input::placeholder {
-      color: #999;
+      color: #9fa8da;
       font-style: italic;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     input:focus {
       outline: none;
-      border-color: #3949ab;
-      box-shadow: 0 0 6px #3949abaa;
-      background-color: #fafafa;
+      border-color: #283593;
+      box-shadow: 0 0 10px #3949abaa;
+      background-color: #fff;
     }
 
     .btn {
       width: 100%;
-      padding: 12px 0;
-      font-weight: 600;
-      font-size: 1rem;
+      padding: 14px 0;
+      font-weight: 700;
+      font-size: 1.1rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 14px;
       cursor: pointer;
       color: #fff;
       user-select: none;
-      margin-bottom: 12px;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 3px 6px rgba(25, 32, 143, 0.3);
+      margin-bottom: 14px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 12px rgba(40,53,147,0.3);
+      letter-spacing: 0.06em;
     }
 
     #btnCalcular {
-      background-color: #283593;
+      background: linear-gradient(45deg, #3949ab, #283593);
     }
     #btnCalcular:hover {
-      background-color: #1a237e;
+      background: linear-gradient(45deg, #283593, #1a237e);
+      box-shadow: 0 8px 18px rgba(26,35,126,0.5);
     }
 
     #btnLimpiar {
-      background-color: #388e3c;
+      background: linear-gradient(45deg, #66bb6a, #388e3c);
     }
     #btnLimpiar:hover {
-      background-color: #2e7d32;
+      background: linear-gradient(45deg, #388e3c, #2e7d32);
+      box-shadow: 0 8px 18px rgba(56,142,60,0.6);
     }
 
     #resultado {
-      width: 100%;
-      max-width: 480px;
-      margin-top: 25px;
-      padding: 20px 22px;
-      background-color: #fff; /* Cambiado a blanco */
-      color: #1a237e; /* Azul oscuro */
-      border-radius: 8px;
+      margin-top: 30px;
+      background-color: #f4f6ff;
+      color: #1a237e;
+      border-radius: 20px;
+      padding: 25px 28px;
       box-sizing: border-box;
       user-select: text;
-      font-size: 0.95rem;
-      line-height: 1.4;
+      font-size: 1rem;
+      line-height: 1.5;
       display: none;
+      box-shadow: 0 10px 25px rgb(33 33 33 / 0.1);
     }
 
     #resultado h3 {
       margin-top: 0;
       font-weight: 700;
-      margin-bottom: 14px;
-      font-size: 1.3rem;
+      margin-bottom: 18px;
+      font-size: 1.5rem;
       text-align: center;
       user-select: none;
+      color: #283593;
+      letter-spacing: 0.03em;
     }
 
     #resultado ul {
-      padding-left: 18px;
-      margin: 0;
-      margin-top: 10px;
+      padding-left: 20px;
+      margin: 0 0 15px 0;
+      list-style: none;
     }
 
     #resultado ul li {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       position: relative;
-      padding-left: 22px;
+      padding-left: 26px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #3949ab;
     }
 
     #resultado ul li::before {
       content: "✔";
       position: absolute;
       left: 0;
-      top: 0;
+      top: 2px;
       color: #4caf50;
       font-weight: 700;
-      font-size: 1rem;
-      line-height: 1;
+      font-size: 1.2rem;
       user-select: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
 
     #tablaResultados {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-      background: white;
-      color: #1a237e;
-      border-radius: 6px;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      margin-top: 20px;
+      background: transparent;
+      color: #283593;
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 0 8px rgb(33 33 33 / 0.1);
+      box-shadow: 0 6px 15px rgb(40 53 147 / 0.15);
     }
 
     #tablaResultados th, #tablaResultados td {
-      padding: 10px;
+      padding: 14px 18px;
       text-align: center;
-      border: 1px solid #ddd;
-      font-weight: 600;
-      font-size: 0.9rem;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      background: #e8eaf6;
+      transition: background-color 0.3s ease;
+      user-select: none;
     }
 
-    #tablaResultados thead {
-      background-color: #283593;
+    #tablaResultados thead th {
+      background-color: #3949ab;
       color: white;
-      user-select: none;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgb(26 35 126 / 0.4);
+    }
+
+    #tablaResultados tbody tr:hover td {
+      background-color: #c5cae9;
+      color: #1a237e;
+      cursor: default;
     }
 
     #precioAprobacion {
-      margin-top: 12px;
+      margin-top: 18px;
       font-style: italic;
-      font-weight: 600;
+      font-weight: 700;
       text-align: center;
-      color: #3949ab; /* Azul legible sobre blanco */
+      color: #283593;
       user-select: none;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 2px rgba(156,156,156,0.3);
     }
   </style>
 </head>
 <body>
-  <h1>Cotizador de Autos</h1>
+  <main>
+    <h1>Autos Seminuevos Fundadores</h1>
 
-  <form id="cotizadorForm" autocomplete="off">
-    <label for="marca">Marca</label>
-    <input type="text" id="marca" placeholder="Ej: Nissan" required />
+    <form id="cotizadorForm" autocomplete="off">
+      <label for="marca">Marca</label>
+      <input type="text" id="marca" placeholder="Ej: Nissan" required />
 
-    <label for="modelo">Modelo</label>
-    <input type="text" id="modelo" placeholder="Ej: Versa" required />
+      <label for="modelo">Modelo</label>
+      <input type="text" id="modelo" placeholder="Ej: Versa" required />
 
-    <label for="anio">Año</label>
-    <input type="number" id="anio" placeholder="Ej: 2024" required />
+      <label for="anio">Año</label>
+      <input type="number" id="anio" placeholder="Ej: 2024" required />
 
-    <label for="precio">Precio</label>
-    <input type="number" id="precio" placeholder="Ej: 300000" required />
+      <label for="precio">Precio</label>
+      <input type="number" id="precio" placeholder="Ej: 300000" required />
 
-    <label for="enganche">Enganche</label>
-    <input type="number" id="enganche" placeholder="Ej: 60000" required />
+      <label for="enganche">Enganche</label>
+      <input type="number" id="enganche" placeholder="Ej: 60000" required />
 
-    <button type="submit" id="btnCalcular" class="btn">Calcular y mostrar cotización</button>
-    <button type="button" id="btnLimpiar" class="btn">Limpiar formulario</button>
-  </form>
+      <button type="submit" id="btnCalcular" class="btn">Calcular y mostrar cotización</button>
+      <button type="button" id="btnLimpiar" class="btn">Limpiar formulario</button>
+    </form>
 
-  <div id="resultado"></div>
+    <div id="resultado"></div>
+  </main>
 
   <script>
     const form = document.getElementById("cotizadorForm");
@@ -257,7 +294,6 @@
         <h3>¿Por qué elegirnos?</h3>
         <ul>
           <li>Asesoría experta y trato personalizado.</li>
-          <li>Planes accesibles y sin letras chiquitas.</li>
           <li>Confianza y experiencia en el mercado.</li>
           <li>Respaldo y atención postventa.</li>
         </ul>
