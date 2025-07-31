@@ -8,17 +8,16 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-    /* Reset y base */
     * {
       box-sizing: border-box;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      background: linear-gradient(135deg, #e3f2fd, #ffffff);
       margin: 0;
       padding: 30px 15px;
-      color: #263238;
+      color: #0d47a1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -27,9 +26,9 @@
 
     h1 {
       font-weight: 700;
-      color: #00796b;
+      color: #1565c0;
       margin-bottom: 30px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      text-shadow: 0 1px 3px rgba(21, 101, 192, 0.4);
       user-select: none;
     }
 
@@ -39,18 +38,18 @@
       background: #ffffffdd;
       padding: 25px 30px;
       border-radius: 16px;
-      box-shadow: 0 10px 20px rgba(0, 121, 107, 0.15);
+      box-shadow: 0 10px 20px rgba(21, 101, 192, 0.15);
       transition: box-shadow 0.3s ease;
     }
     form:hover {
-      box-shadow: 0 15px 30px rgba(0, 121, 107, 0.3);
+      box-shadow: 0 15px 30px rgba(21, 101, 192, 0.3);
     }
 
     label {
       display: block;
       margin-bottom: 6px;
       font-weight: 600;
-      color: #004d40;
+      color: #0d47a1;
       font-size: 0.95rem;
       user-select: none;
     }
@@ -59,37 +58,37 @@
       width: 100%;
       padding: 12px 14px;
       margin-bottom: 18px;
-      border: 1.8px solid #b2dfdb;
+      border: 1.8px solid #90caf9;
       border-radius: 12px;
       font-size: 1rem;
-      color: #004d40;
-      background: #e0f2f1;
+      color: #0d47a1;
+      background: #e3f2fd;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
       outline-offset: 2px;
     }
     input:focus {
-      border-color: #00796b;
-      box-shadow: 0 0 8px #00796baa;
+      border-color: #1565c0;
+      box-shadow: 0 0 8px #1565c0aa;
       background: #ffffff;
     }
 
     button[type="submit"] {
       width: 100%;
       padding: 14px 0;
-      background-color: #00796b;
+      background-color: #1565c0;
       color: white;
       font-weight: 700;
       font-size: 1.1rem;
       border: none;
       border-radius: 14px;
       cursor: pointer;
-      box-shadow: 0 6px 12px #004d40bb;
+      box-shadow: 0 6px 12px #0d3284bb;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       user-select: none;
     }
     button[type="submit"]:hover {
-      background-color: #004d40;
-      box-shadow: 0 8px 20px #00332bcc;
+      background-color: #0d47a1;
+      box-shadow: 0 8px 20px #092e6acc;
     }
 
     #resultado {
@@ -99,8 +98,8 @@
       background: #ffffffcc;
       padding: 25px 30px;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(38, 50, 56, 0.1);
-      color: #004d40;
+      box-shadow: 0 12px 30px rgba(13, 71, 161, 0.1);
+      color: #0d47a1;
       user-select: text;
     }
 
@@ -108,7 +107,7 @@
       margin-top: 0;
       font-weight: 700;
       font-size: 1.5rem;
-      color: #00695c;
+      color: #1565c0;
       text-align: center;
       user-select: none;
     }
@@ -128,8 +127,8 @@
     }
 
     #resultado thead tr th {
-      background-color: #00796b;
-      color: #e0f2f1;
+      background-color: #1565c0;
+      color: #e3f2fd;
       padding: 12px 0;
       border-radius: 12px 12px 0 0;
       font-weight: 700;
@@ -137,20 +136,20 @@
     }
 
     #resultado tbody tr {
-      background-color: #b2dfdb;
+      background-color: #90caf9;
       border-radius: 12px;
       box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
       transition: background-color 0.3s ease;
     }
 
     #resultado tbody tr:hover {
-      background-color: #80cbc4;
+      background-color: #64b5f6;
     }
 
     #resultado tbody td {
       padding: 10px 0;
       text-align: center;
-      color: #004d40;
+      color: #0d47a1;
       font-weight: 600;
       user-select: text;
     }
@@ -159,7 +158,7 @@
       text-align: center;
       font-style: italic;
       margin-top: 25px;
-      color: #00796bdd;
+      color: #1565c0;
       font-weight: 600;
       font-size: 1.05rem;
       user-select: none;
@@ -170,20 +169,20 @@
       margin: 30px auto 0;
       display: block;
       padding: 14px 30px;
-      background-color: #004d40;
+      background-color: #0d47a1;
       color: white;
       font-weight: 700;
       font-size: 1.05rem;
       border: none;
       border-radius: 14px;
       cursor: pointer;
-      box-shadow: 0 6px 14px #00271baa;
+      box-shadow: 0 6px 14px #092e6a;
       transition: background-color 0.3s ease;
       user-select: none;
       max-width: 250px;
     }
     #btnDescargar:hover {
-      background-color: #00271b;
+      background-color: #08306b;
     }
 
     /* Responsive */
