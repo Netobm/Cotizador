@@ -6,246 +6,202 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 0;
-      background: #f4f4f4;
+      background: #f8f9fa;
       color: #333;
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 30px;
-      background: white;
-      border-radius: 18px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    h1 {
+    header {
+      background: #fff;
+      padding: 1.5rem;
       text-align: center;
-      margin-bottom: 20px;
-      color: #0c2d6c;
+      font-size: 1.8rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
     label {
       display: block;
-      margin-top: 15px;
-      font-weight: 500;
+      margin-top: 1rem;
+      font-weight: 600;
     }
     input {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 8px;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border-radius: 0.5rem;
       border: 1px solid #ccc;
     }
-    .resultados {
-      margin-top: 25px;
-      border-top: 1px solid #ddd;
-      padding-top: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 12px;
-      text-align: center;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    th {
-      background-color: #0c2d6c;
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #007bff;
       color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #resultado {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #f0f2f5;
+      border-radius: 1rem;
+      text-align: center;
+    }
+    .beneficios {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+    }
+    .beneficios span {
+      display: block;
+      margin: 0.5rem 0;
     }
     .acciones {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-      justify-content: center;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #0c2d6c;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    button:hover {
-      background-color: #083076;
-    }
-    .info {
-      margin-top: 20px;
-      font-size: 0.95em;
-      text-align: center;
-      color: #555;
-    }
-    .mensaje-final {
-      text-align: center;
-      font-style: italic;
-      margin-top: 20px;
-      color: #444;
-    }
-    .caracteristicas {
-      margin-top: 25px;
-      background-color: #f0f4fc;
-      padding: 15px;
-      border-radius: 10px;
-      color: #0c2d6c;
-    }
-    .caracteristicas ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .caracteristicas li {
-      margin-bottom: 8px;
-      display: flex;
+      flex-direction: column;
       align-items: center;
-    }
-    .caracteristicas li::before {
-      content: "✔";
-      color: #0c2d6c;
-      margin-right: 10px;
+      gap: 1rem;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="cotizacion">
-    <h1>Autos Seminuevos Fundadores</h1>
-    <label>Marca:</label>
+  <header>Autos Seminuevos Fundadores</header>
+  <main id="cotizador">
+    <label for="marca">Marca:</label>
     <input type="text" id="marca" placeholder="Ej. Nissan">
 
-    <label>Modelo:</label>
+    <label for="modelo">Modelo:</label>
     <input type="text" id="modelo" placeholder="Ej. Versa">
 
-    <label>Año:</label>
-    <input type="number" id="año" placeholder="Ej. 2021">
+    <label for="anio">Año:</label>
+    <input type="number" id="anio" placeholder="Ej. 2021">
 
-    <label>Precio:</label>
-    <input type="number" id="precio" placeholder="Ej. 250000">
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" placeholder="Ej. 235000">
 
-    <label>Enganche:</label>
-    <input type="number" id="enganche" placeholder="Ej. 50000">
+    <label for="enganche">Enganche:</label>
+    <input type="number" id="enganche" placeholder="Ej. 40000">
 
     <div class="acciones">
-      <button onclick="cotizar()">Generar Cotización</button>
-      <button onclick="descargarImagen()">Descargar Imagen</button>
-      <button onclick="limpiarFormulario()">Limpiar Formulario</button>
+      <button onclick="cotizar()">Generar cotización</button>
+      <button onclick="descargarImagen()">Descargar imagen</button>
+      <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+      <button onclick="limpiar()">Limpiar formulario</button>
     </div>
 
-    <div class="resultados" id="resultados" style="display:none;">
-      <h2>Resultado de Cotización</h2>
-      <p><strong>Marca:</strong> <span id="resMarca"></span></p>
-      <p><strong>Modelo:</strong> <span id="resModelo"></span></p>
-      <p><strong>Año:</strong> <span id="resAño"></span></p>
-      <p><strong>Precio:</strong> $<span id="resPrecio"></span></p>
-      <p><strong>Enganche:</strong> $<span id="resEnganche"></span></p>
-      <p><strong>Monto a Financiar:</strong> $<span id="resMonto"></span></p>
-      <table>
-        <thead>
-          <tr>
-            <th>Plazo</th>
-            <th>Mensualidad</th>
-          </tr>
-        </thead>
-        <tbody id="tablaCuotas"></tbody>
-      </table>
-      <p class="mensaje-final">*Precio sujeto a aprobación*</p>
-      <div class="acciones">
-        <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
-      </div>
-    </div>
+    <div id="resultado" style="display:none;"></div>
 
-    <div class="caracteristicas">
-      <ul>
-        <li>Asesoría experta y trato personalizado</li>
-        <li>Confianza y experiencia en el mercado</li>
-        <li>Respaldo y atención postventa</li>
-      </ul>
+    <div class="beneficios">
+      <span>🤝 Asesoría experta y trato personalizado</span>
+      <span>🔒 Confianza y experiencia en el mercado</span>
+      <span>🛠️ Respaldo y atención postventa</span>
     </div>
-  </div>
+  </main>
 
   <script>
     function cotizar() {
       const marca = document.getElementById("marca").value;
       const modelo = document.getElementById("modelo").value;
-      const año = document.getElementById("año").value;
+      const anio = document.getElementById("anio").value;
       const precio = parseFloat(document.getElementById("precio").value);
       const enganche = parseFloat(document.getElementById("enganche").value);
+
+      if (!marca || !modelo || !anio || isNaN(precio) || isNaN(enganche)) {
+        alert("Por favor llena todos los campos correctamente.");
+        return;
+      }
+
       const monto = precio - enganche;
-
-      const tasaMensual = 0.0113;
+      const tasa = 0.0113;
       const plazos = [12, 24, 36, 48, 60];
-      const tabla = document.getElementById("tablaCuotas");
-      tabla.innerHTML = "";
 
-      plazos.forEach(plazo => {
-        const mensualidad = monto * (tasaMensual * Math.pow(1 + tasaMensual, plazo)) / (Math.pow(1 + tasaMensual, plazo) - 1);
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${plazo} meses</td><td>$${mensualidad.toFixed(2)}</td>`;
-        tabla.appendChild(row);
+      let html = `<h2>Resultados de cotización</h2>
+                  <p><strong>Marca:</strong> ${marca}</p>
+                  <p><strong>Modelo:</strong> ${modelo}</p>
+                  <p><strong>Año:</strong> ${anio}</p>
+                  <p><strong>Precio:</strong> $${precio.toLocaleString()}</p>
+                  <p><strong>Enganche:</strong> $${enganche.toLocaleString()}</p>
+                  <h3>Mensualidades:</h3>
+                  <ul style="list-style:none;padding:0;">`;
+
+      plazos.forEach(p => {
+        const mensual = monto * (tasa * Math.pow(1 + tasa, p)) / (Math.pow(1 + tasa, p) - 1);
+        html += `<li>${p} meses: $${mensual.toFixed(2).toLocaleString()}</li>`;
       });
 
-      document.getElementById("resMarca").textContent = marca;
-      document.getElementById("resModelo").textContent = modelo;
-      document.getElementById("resAño").textContent = año;
-      document.getElementById("resPrecio").textContent = precio.toLocaleString();
-      document.getElementById("resEnganche").textContent = enganche.toLocaleString();
-      document.getElementById("resMonto").textContent = monto.toLocaleString();
-
-      document.getElementById("resultados").style.display = "block";
-
-      // Esperar a que todo se renderice antes de copiar imagen
-      setTimeout(() => {
-        html2canvas(document.getElementById("cotizacion")).then(canvas => {
-          canvas.toBlob(blob => {
-            const item = new ClipboardItem({ "image/png": blob });
-            navigator.clipboard.write([item]);
-          });
-        });
-      }, 500);
+      html += `</ul><p style="margin-top:1rem;font-style:italic;">*Precio sujeto a aprobación*</p>`;
+      const resultado = document.getElementById("resultado");
+      resultado.innerHTML = html;
+      resultado.style.display = "block";
     }
 
     function descargarImagen() {
-      html2canvas(document.getElementById("cotizacion")).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "cotizacion.png";
-        link.href = canvas.toDataURL();
-        link.click();
-      });
-    }
+      const resultado = document.getElementById("resultado");
+      html2canvas(resultado).then(canvas => {
+        canvas.toBlob(blob => {
+          const link = document.createElement("a");
+          link.download = "cotizacion.png";
+          link.href = URL.createObjectURL(blob);
+          link.click();
 
-    function limpiarFormulario() {
-      document.getElementById("marca").value = "";
-      document.getElementById("modelo").value = "";
-      document.getElementById("año").value = "";
-      document.getElementById("precio").value = "";
-      document.getElementById("enganche").value = "";
-      document.getElementById("resultados").style.display = "none";
+          // Copiar al portapapeles
+          navigator.clipboard.write([
+            new ClipboardItem({ "image/png": blob })
+          ]).then(() => {
+            alert("Imagen copiada al portapapeles");
+          });
+        });
+      });
     }
 
     function enviarWhatsApp() {
       const marca = document.getElementById("marca").value;
       const modelo = document.getElementById("modelo").value;
-      const año = document.getElementById("año").value;
-      const precio = parseFloat(document.getElementById("precio").value).toLocaleString();
-      const enganche = parseFloat(document.getElementById("enganche").value).toLocaleString();
-      const filas = document.querySelectorAll("#tablaCuotas tr");
+      const anio = document.getElementById("anio").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const enganche = parseFloat(document.getElementById("enganche").value);
+      const monto = precio - enganche;
+      const tasa = 0.0113;
+      const plazos = [12, 24, 36, 48, 60];
 
-      let mensaje = `🚗 Cotización de auto:\n\nMarca: ${marca}\nModelo: ${modelo}\nAño: ${año}\nPrecio: $${precio}\nEnganche: $${enganche}\n\nPlazos:\n`;
-      filas.forEach(fila => {
-        const cols = fila.querySelectorAll("td");
-        mensaje += `${cols[0].innerText}: ${cols[1].innerText}\n`;
+      let mensaje = `🚗 Cotización de auto:\n\nMarca: ${marca}\nModelo: ${modelo}\nAño: ${anio}\nPrecio: $${precio.toLocaleString()}\nEnganche: $${enganche.toLocaleString()}\n\nPlazos:\n`;
+
+      plazos.forEach(p => {
+        const mensual = monto * (tasa * Math.pow(1 + tasa, p)) / (Math.pow(1 + tasa, p) - 1);
+        mensaje += `${p} meses: $${mensual.toFixed(2).toLocaleString()}\n`;
       });
+
       mensaje += `\n*Precio sujeto a aprobación*`;
 
-      const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+      const url = "https://wa.me/?text=" + encodeURIComponent(mensaje);
       window.open(url, "_blank");
+    }
+
+    function limpiar() {
+      document.getElementById("marca").value = "";
+      document.getElementById("modelo").value = "";
+      document.getElementById("anio").value = "";
+      document.getElementById("precio").value = "";
+      document.getElementById("enganche").value = "";
+      document.getElementById("resultado").innerHTML = "";
+      document.getElementById("resultado").style.display = "none";
     }
   </script>
 </body>
