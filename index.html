@@ -5,15 +5,16 @@
   <title>Autos Seminuevos Fundadores</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --azul: #004080;
-      --azul-claro: #007bff;
-      --gris-fondo: #f5f7fa;
-      --gris-claro: #e0e0e0;
+      --azul-oscuro: #002c50;
+      --azul: #005080;
+      --azul-suave: #3c6e91;
+      --gris: #f1f3f5;
+      --gris-texto: #444;
       --blanco: #ffffff;
-      --sombra: rgba(0, 0, 0, 0.05);
+      --borde: #dcdcdc;
     }
 
     * {
@@ -21,61 +22,46 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
-      background: var(--gris-fondo);
-      color: #333;
+      font-family: 'Poppins', sans-serif;
+      background: var(--gris);
+      color: var(--gris-texto);
     }
 
     header {
-      background: var(--azul);
+      background: var(--azul-oscuro);
       color: var(--blanco);
-      padding: 2rem 1rem;
       text-align: center;
-      font-size: 2rem;
-      font-weight: 700;
-      box-shadow: 0 2px 4px var(--sombra);
+      padding: 2rem 1rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
     }
 
     main {
       max-width: 700px;
       margin: 2rem auto;
       background: var(--blanco);
-      padding: 2rem;
-      border-radius: 1.25rem;
-      box-shadow: 0 4px 10px var(--sombra);
+      padding: 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
     }
 
     label {
       display: block;
-      margin-top: 1.2rem;
+      margin-top: 1.5rem;
       font-weight: 600;
+      font-size: 0.95rem;
     }
 
     input {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.8rem;
       margin-top: 0.4rem;
-      border: 1px solid var(--gris-claro);
-      border-radius: 0.6rem;
       font-size: 1rem;
-      background-color: #fcfcfc;
-    }
-
-    button {
-      padding: 0.9rem 1.8rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--blanco);
-      background: var(--azul-claro);
-      border: none;
-      border-radius: 0.6rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #005dc1;
+      border-radius: 0.5rem;
+      border: 1px solid var(--borde);
+      background: #fafafa;
     }
 
     .acciones {
@@ -85,42 +71,53 @@
       margin-top: 2rem;
     }
 
-    .acciones button {
-      width: 100%;
+    button {
+      background-color: var(--azul);
+      color: var(--blanco);
+      font-weight: 600;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--azul-oscuro);
     }
 
     #resultado {
-      margin-top: 2rem;
+      display: none;
+      margin-top: 2.5rem;
       padding: 2rem;
-      border-radius: 1rem;
-      background: #f9fbfc;
-      box-shadow: 0 2px 5px var(--sombra);
-      text-align: center;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    #resultado ul {
-      padding: 0;
-      list-style: none;
-      margin: 1rem 0;
-    }
-
-    #resultado li {
-      margin-bottom: 0.4rem;
+      background-color: #fdfdfd;
+      border: 1px solid var(--borde);
+      border-radius: 0.75rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.03);
     }
 
     #resultado h2 {
+      margin-top: 0;
+      color: var(--azul-oscuro);
+      font-size: 1.4rem;
       margin-bottom: 1rem;
-      font-size: 1.5rem;
-      color: var(--azul);
+    }
+
+    #resultado p, #resultado li {
+      margin: 0.5rem 0;
+      font-size: 0.98rem;
+    }
+
+    #resultado ul {
+      padding-left: 1rem;
     }
 
     .beneficios {
-      text-align: center;
       margin-top: 2rem;
-      color: #555;
-      font-size: 0.95rem;
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
     }
 
     .beneficios span {
@@ -166,7 +163,7 @@
       <button onclick="limpiar()">Limpiar formulario</button>
     </div>
 
-    <div id="resultado" style="display:none;"></div>
+    <div id="resultado"></div>
 
     <div class="beneficios">
       <span>🤝 Asesoría experta y trato personalizado</span>
@@ -206,7 +203,7 @@
         html += `<li>${p} meses: $${mensual.toFixed(2).toLocaleString()}</li>`;
       });
 
-      html += `</ul><p style="margin-top:1.2rem;font-style:italic;">*Precio sujeto a aprobación*</p>`;
+      html += `</ul><p style="margin-top:1rem;font-style:italic;">*Precio sujeto a aprobación*</p>`;
       const resultado = document.getElementById("resultado");
       resultado.innerHTML = html;
       resultado.style.display = "block";
