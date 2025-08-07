@@ -3,241 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <title>Autos Seminuevos Fundadores</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    body {
+    * {
       font-family: 'Poppins', sans-serif;
-      background: #f4f4f4;
+      box-sizing: border-box;
+    }
+    body {
       margin: 0;
-      padding: 0;
-      color: #1a1a1a;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
+      background-color: #f4f4f4;
+      color: #333;
       padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
     }
-
     h1 {
       text-align: center;
-      color: #0a2e57;
-      font-size: 28px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 15px;
-    }
-
-    label {
-      font-weight: 500;
-      margin-bottom: 5px;
-    }
-
-    input {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    .button-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    button {
-      flex: 1;
-      padding: 12px;
-      background-color: #0a2e57;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #063469;
-    }
-
-    .result-section {
-      margin-top: 30px;
-      padding: 20px;
-      border-top: 2px solid #eee;
-    }
-
-    .cotizacion {
-      background: #f9f9f9;
+    .form-container, .result-container {
+      background: #fff;
       padding: 20px;
       border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 20px auto;
     }
-
-    .cotizacion h2 {
-      text-align: center;
-      color: #0a2e57;
+    label {
+      display: block;
+      margin-top: 15px;
     }
-
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin: 15px 10px 0 0;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2c3e50;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #1a252f;
+    }
     table {
       width: 100%;
-      margin-top: 15px;
       border-collapse: collapse;
+      margin-top: 20px;
     }
-
     th, td {
-      padding: 10px;
+      border: 1px solid #ddd;
+      padding: 12px;
       text-align: center;
-      border-bottom: 1px solid #ddd;
     }
-
     th {
-      background: #0a2e57;
-      color: white;
+      background-color: #ecf0f1;
     }
-
-    .disclaimer {
-      margin-top: 10px;
+    .footer-note {
       text-align: center;
-      font-size: 14px;
-      color: #666;
+      font-size: 0.9em;
+      margin-top: 20px;
+      font-style: italic;
     }
-
-    .hidden {
-      display: none;
+    #descargarBtn {
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Autos Seminuevos Fundadores</h1>
+  <h1>Autos Seminuevos Fundadores</h1>
+  <div class="form-container">
+    <label>Marca:<input type="text" id="marca" required></label>
+    <label>Modelo:<input type="text" id="modelo" required></label>
+    <label>Año:<input type="number" id="anio" required></label>
+    <label>Precio:<input type="number" id="precio" required></label>
+    <label>Enganche:<input type="number" id="enganche" required></label>
+    <label>Tasa de interés mensual (%):<input type="number" id="interes" value="0" step="0.01"></label>
+    <button onclick="cotizar()">Generar Cotización</button>
+    <button onclick="limpiarFormulario()">Limpiar Formulario</button>
+  </div>
 
-    <div class="form-group">
-      <label>Marca:</label>
-      <input type="text" id="marca" />
+  <div class="result-container" id="resultado">
+    <div id="resultadoContenido" style="display: none;">
+      <h2>Resultados de Cotización</h2>
+      <p><strong>Marca:</strong> <span id="resMarca"></span></p>
+      <p><strong>Modelo:</strong> <span id="resModelo"></span></p>
+      <p><strong>Año:</strong> <span id="resAnio"></span></p>
+      <p><strong>Precio:</strong> $<span id="resPrecio"></span></p>
+      <p><strong>Enganche:</strong> $<span id="resEnganche"></span></p>
+      <table>
+        <thead>
+          <tr><th>Plazo</th><th>Mensualidad</th></tr>
+        </thead>
+        <tbody id="tablaMensualidades"></tbody>
+      </table>
+      <div class="footer-note">*Precio sujeto a aprobación</div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label>Modelo:</label>
-      <input type="text" id="modelo" />
-    </div>
-
-    <div class="form-group">
-      <label>Año:</label>
-      <input type="number" id="anio" />
-    </div>
-
-    <div class="form-group">
-      <label>Precio:</label>
-      <input type="number" id="precio" />
-    </div>
-
-    <div class="form-group">
-      <label>Enganche:</label>
-      <input type="number" id="enganche" />
-    </div>
-
-    <div class="form-group">
-      <label>Tasa de interés mensual (%):</label>
-      <input type="number" id="interes" value="0" step="0.01" />
-    </div>
-
-    <div class="button-group">
-      <button onclick="cotizar()">Cotizar</button>
-      <button onclick="descargarImagen()">Descargar Imagen</button>
-      <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
-    </div>
-
-    <div class="result-section" id="resultado">
-      <!-- Resultado generado dinámicamente -->
-    </div>
-
-    <div class="button-group">
-      <button onclick="limpiar()">Limpiar Formulario</button>
-    </div>
+  <div style="text-align: center;">
+    <button id="descargarBtn" onclick="descargarImagen()">Descargar Imagen</button>
+    <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
   </div>
 
   <script>
     function cotizar() {
-      const marca = document.getElementById("marca").value;
-      const modelo = document.getElementById("modelo").value;
-      const anio = document.getElementById("anio").value;
-      const precio = parseFloat(document.getElementById("precio").value);
-      const enganche = parseFloat(document.getElementById("enganche").value);
-      const interesMensual = parseFloat(document.getElementById("interes").value) / 100;
+      const marca = document.getElementById('marca').value;
+      const modelo = document.getElementById('modelo').value;
+      const anio = document.getElementById('anio').value;
+      const precio = parseFloat(document.getElementById('precio').value);
+      const enganche = parseFloat(document.getElementById('enganche').value);
+      const interes = parseFloat(document.getElementById('interes').value || 0) / 100;
 
       if (!marca || !modelo || !anio || isNaN(precio) || isNaN(enganche)) {
-        alert("Por favor, completa todos los campos.");
+        alert("Morro puñetas");
+        return;
+      }
+      if (enganche >= precio) {
+        alert("Morro puñetas");
         return;
       }
 
+      const plazoMeses = [12, 24, 36, 48, 60];
       const montoFinanciar = precio - enganche;
-      const plazos = [12, 24, 36, 48, 60];
-      const mensualidades = plazos.map(plazo => {
-        const cuota = montoFinanciar * Math.pow((1 + interesMensual), plazo) * interesMensual / (Math.pow((1 + interesMensual), plazo) - 1);
-        return { plazo, cuota: interesMensual > 0 ? cuota : montoFinanciar / plazo };
+      const tbody = document.getElementById("tablaMensualidades");
+      tbody.innerHTML = "";
+      plazoMeses.forEach(plazo => {
+        const mensualidad = montoFinanciar * Math.pow(1 + interes, plazo) * interes / (Math.pow(1 + interes, plazo) - 1);
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${plazo} meses</td><td>$${mensualidad.toFixed(2)}</td>`;
+        tbody.appendChild(tr);
       });
 
-      let tabla = `
-        <div id="cotizacion" class="cotizacion">
-          <h2>Resultado de Cotización</h2>
-          <p><strong>${marca} ${modelo} ${anio}</strong></p>
-          <p>Precio: $${precio.toLocaleString()}</p>
-          <p>Enganche: $${enganche.toLocaleString()}</p>
-          <table>
-            <tr><th>Plazo (meses)</th><th>Mensualidad</th></tr>
-            ${mensualidades.map(m => `<tr><td>${m.plazo}</td><td>$${m.cuota.toFixed(2)}</td></tr>`).join("")}
-          </table>
-          <div class="disclaimer">*Precio sujeto a aprobación</div>
-        </div>
-      `;
+      document.getElementById("resMarca").textContent = marca;
+      document.getElementById("resModelo").textContent = modelo;
+      document.getElementById("resAnio").textContent = anio;
+      document.getElementById("resPrecio").textContent = precio.toLocaleString();
+      document.getElementById("resEnganche").textContent = enganche.toLocaleString();
+      document.getElementById("resultadoContenido").style.display = 'block';
+    }
 
-      document.getElementById("resultado").innerHTML = tabla;
-
-      html2canvas(document.querySelector("#cotizacion")).then(canvas => {
-        canvas.toBlob(blob => {
-          navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-        });
-      });
+    function limpiarFormulario() {
+      document.getElementById('marca').value = "";
+      document.getElementById('modelo').value = "";
+      document.getElementById('anio').value = "";
+      document.getElementById('precio').value = "";
+      document.getElementById('enganche').value = "";
+      document.getElementById('interes').value = "0";
+      document.getElementById("resultadoContenido").style.display = 'none';
     }
 
     function descargarImagen() {
-      html2canvas(document.querySelector("#cotizacion")).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "cotizacion.png";
-        link.href = canvas.toDataURL();
-        link.click();
+      const resultado = document.getElementById("resultadoContenido");
+      html2canvas(resultado).then(canvas => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "cotizacion.png";
+          link.click();
+        });
+        canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]));
       });
     }
 
     function enviarWhatsApp() {
-      const marca = document.getElementById("marca").value;
-      const modelo = document.getElementById("modelo").value;
-      const anio = document.getElementById("anio").value;
-      const precio = document.getElementById("precio").value;
-
-      const texto = `Hola, estoy interesado en el auto ${marca} ${modelo} ${anio} con precio de $${precio}`;
-      const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
-      window.open(url, "_blank");
-    }
-
-    function limpiar() {
-      document.getElementById("marca").value = "";
-      document.getElementById("modelo").value = "";
-      document.getElementById("anio").value = "";
-      document.getElementById("precio").value = "";
-      document.getElementById("enganche").value = "";
-      document.getElementById("interes").value = "0";
-      document.getElementById("resultado").innerHTML = "";
+      const marca = document.getElementById('marca').value;
+      const modelo = document.getElementById('modelo').value;
+      const anio = document.getElementById('anio').value;
+      const precio = document.getElementById('precio').value;
+      const enganche = document.getElementById('enganche').value;
+      const link = `https://wa.me/?text=Cotización%20de%20auto:%0A${marca}%20${modelo}%20${anio}%0APrecio:%20$${precio}%0AEnganche:%20$${enganche}`;
+      window.open(link, '_blank');
     }
   </script>
 </body>
